@@ -3,7 +3,7 @@ import glob from "glob";
 import path from "path";
 import plugin from "../src/index";
 import { transformFileSync } from "@babel/core";
-import _ from "lodash";
+import { describe, expect } from "@jest/globals";
 
 function getLodashId(testPath) {
   const postfix = /\b(?:compat|es)\b/.exec(testPath);

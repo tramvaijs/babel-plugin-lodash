@@ -16,6 +16,8 @@ const o2 = {
   'c': 3
 };
 const o3 = _objectSpread({}, o1, o2);
-const foo = o3.b,
+const {
+    b: foo
+  } = o3,
   bar = _objectWithoutProperties(o3, ["b"]);
 (0, _keys2.default)(bar);

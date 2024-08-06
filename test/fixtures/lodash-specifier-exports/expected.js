@@ -5,25 +5,25 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "bar", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _foo.default;
   }
 });
 Object.defineProperty(exports, "foo", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _isObject2.default;
   }
 });
 Object.defineProperty(exports, "isObject", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _isObject2.default;
   }
 });
 Object.defineProperty(exports, "map", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _map2.default;
   }
 });
