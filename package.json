@@ -42,7 +42,6 @@
     "lodash-bound": "^1.1.2",
     "lodash-compat": "^3.10.2",
     "lodash-es": "^4.17.10",
-    "mocha": "^4.1.0",
     "prettier": "^3.3.3",
     "ramda": "^0.25.0",
     "react-bootstrap": "^0.31.5"
