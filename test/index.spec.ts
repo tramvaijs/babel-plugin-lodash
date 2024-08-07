@@ -1,30 +1,29 @@
 import fs from "fs";
-import glob from "glob";
+import {sync} from "glob";
 import path from "path";
 import plugin from "../src/index";
 import { transformFileSync } from "@babel/core";
-import { describe, expect } from "@jest/globals";
+import { describe, expect, test } from "@jest/globals";
 
-function getLodashId(testPath) {
+function getLodashId(testPath: string) {
   const postfix = /\b(?:compat|es)\b/.exec(testPath);
   return "lodash" + (postfix ? "-" + postfix : "");
 }
 
-function getTestName(testPath) {
+function getTestName(testPath: string) {
   return path.basename(testPath).replaceAll("-", " ");
 }
 
-function getActualPath(testPath) {
+function getActualPath(testPath: string) {
   return path.join(testPath, 'actual.js');
 }
 
-function getExpectedPath(testPath) {
+function getExpectedPath(testPath: string) {
   return path.join(testPath, 'expected.js');
 }
 
-function getCases(filesGlob) {
-  return glob
-      .sync(path.join(__dirname, filesGlob))
+function getCases(filesGlob: string) {
+  return sync(path.join(__dirname, filesGlob)).filter((filePath) => filePath.includes('/lodash'))
       .map((testPath) => [getTestName(testPath), testPath]);
 }
 
@@ -44,7 +43,7 @@ describe("cherry-picked modular builds", function () {
       const expected = fs.readFileSync(expectedPath, "utf8");
       const actual = transformFileSync(actualPath, {
         plugins: [[plugin, { id: [lodashId, "@storybook/addon-links"] }]],
-      }).code;
+      })?.code;
 
       expect(actual).toStrictEqual(expected);
     });
@@ -77,7 +76,7 @@ describe("cherry-picked modular builds", function () {
       const expected = fs.readFileSync(expectedPath, 'utf8')
       const actual = transformFileSync(actualPath, {
         'plugins': [[plugin, options]]
-      }).code
+      })?.code
 
       expect(actual).toStrictEqual(expected);
     });

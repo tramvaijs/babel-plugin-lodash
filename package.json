@@ -35,6 +35,7 @@
     "@babel/register": "^7.18.9",
     "@jest/globals": "^29.7.0",
     "@storybook/addon-links": "^3.4.7",
+    "@types/lodash": "^4.17.7",
     "async": "^2.6.1",
     "babel-plugin-add-module-exports": "~0.2.1",
     "babel-plugin-lodash": "3.3.2",
@@ -46,12 +47,13 @@
     "prettier": "^3.3.3",
     "ramda": "^0.25.0",
     "react-bootstrap": "^0.31.5",
+    "ts-jest": "^29.2.4",
     "typescript": "^5.5.4"
   },
   "dependencies": {
     "@babel/helper-module-imports": "^7.18.6",
     "@babel/types": "^7.0.0",
-    "glob": "^7.1.1",
+    "glob": "^10.4.5",
     "lodash": "^4.17.10",
     "require-package-name": "^2.0.1"
   },

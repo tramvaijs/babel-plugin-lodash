@@ -1,10 +1,13 @@
+// @ts-nocheck
 import _ from "lodash";
 import { isImportOrExportDeclaration } from "@babel/types";
+import * as t from "@babel/types";
 
-import config from "./config";
+import { config, PluginOptions } from "./config";
 import importModule from "./importModule";
-import mapping from "./mapping";
-import Store from "./Store";
+import { mapping } from "./mapping";
+import { Store } from "./Store";
+import { Visitor } from "@babel/core";
 
 /** The error message used when chain sequences are detected. */
 const CHAIN_ERROR = [
@@ -15,7 +18,54 @@ const CHAIN_ERROR = [
 
 /*----------------------------------------------------------------------------*/
 
-export default function lodash({ types }) {
+interface Specifier {
+  kind: "named" | "namespace";
+  imported?: string;
+  local: string;
+}
+
+function getSpecifiers(node: t.ImportDeclaration): {
+  specifiers: Specifier[];
+  imported: string[];
+} {
+  const imported: string[] = [];
+
+  for (const specifier of node.specifiers) {
+    if (t.isImportDefaultSpecifier(specifier)) {
+      imported.push("default");
+      specifiers.push({
+        kind: "named",
+        imported: "default",
+        local: specifier.local.name,
+      });
+    }
+
+    if (t.isImportSpecifier(specifier)) {
+      const importedNode = specifier.imported;
+      const importedName = t.isIdentifier(importedNode)
+        ? importedNode.name
+        : importedNode.value;
+      imported.push(importedName);
+      specifiers.push({
+        kind: "named",
+        imported: importedName,
+        local: specifier.local.name,
+      });
+    }
+
+    if (t.isImportNamespaceSpecifier(specifier)) {
+      imported.push("*");
+      specifiers.push({
+        kind: "namespace",
+        local: specifier.local.name,
+      });
+    }
+  }
+
+  return { specifiers, imported };
+}
+
+export default function lodash({ types }: { types: typeof t }) {
   const identifiers = {
     PLACEHOLDER: types.identifier("placeholder"),
     UNDEFINED: types.identifier("undefined"),
@@ -49,86 +99,58 @@ export default function lodash({ types }) {
 
   /*--------------------------------------------------------------------------*/
 
-  const visitor = {
+  type State = { opts: PluginOptions };
+
+  const visitor: Visitor<State> = {
     Program(path, state) {
-      const { ids } = _.assign(mapping, config(state.opts));
-      const { file } = path.hub;
+      // const { ids } = _.assign(mapping, config(state.opts));
+      // const { file } = path.hub;
+      //
+      // // Clear tracked method imports.
+      // importModule.cache.clear();
+      // store.clear();
+      //
+      // // Populate module paths per package.
+      // _.each(ids, (id) => {
+      //   store.set(id);
+      //   mapping.modules.get(id).forEach((value, key) => {
+      //     store.set(id + "/" + key);
+      //   });
+      // });
 
-      // Clear tracked method imports.
-      importModule.cache.clear();
-      store.clear();
+      const imports: {
+        source: string;
+        imported: string[];
+        specifiers: Specifier[];
+      }[] = [];
 
-      // Populate module paths per package.
-      _.each(ids, (id) => {
-        store.set(id);
-        mapping.modules.get(id).forEach((value, key) => {
-          store.set(id + "/" + key);
-        });
-      });
+      const hasImports = path.node.body.some((node) =>
+        isImportOrExportDeclaration(node),
+      );
 
-      const imports = [];
-
-      let isModule = false;
-
-      for (const node of file.ast.program.body) {
-        if (isImportOrExportDeclaration(node)) {
-          isModule = true;
-          break;
-        }
-      }
-
-      if (isModule) {
-        file.path.traverse({
+      if (hasImports) {
+        /**
+         * Find all imports
+         */
+        path.traverse({
           ImportDeclaration: {
             exit(path) {
-              const { node } = path;
-
-              const imported = [];
-              const specifiers = [];
+              const { specifiers, imported } = getSpecifiers(path.node);
 
               imports.push({
-                source: node.source.value,
+                source: path.node.source.value,
                 imported,
                 specifiers,
               });
-
-              for (const specifier of path.get("specifiers")) {
-                const local = specifier.node.local.name;
-
-                if (specifier.isImportDefaultSpecifier()) {
-                  imported.push("default");
-                  specifiers.push({
-                    kind: "named",
-                    imported: "default",
-                    local,
-                  });
-                }
-
-                if (specifier.isImportSpecifier()) {
-                  const importedName = specifier.node.imported.name;
-                  imported.push(importedName);
-                  specifiers.push({
-                    kind: "named",
-                    imported: importedName,
-                    local,
-                  });
-                }
-
-                if (specifier.isImportNamespaceSpecifier()) {
-                  imported.push("*");
-                  specifiers.push({
-                    kind: "namespace",
-                    local,
-                  });
-                }
-              }
             },
           },
         });
       }
 
+      console.log("done");
+
       // Replace old members with their method imports.
-      _.each(imports, (module) => {
+      imports.forEach((module) => {
         const pkgStore = store.get(module.source);
         if (!pkgStore) {
           return;
@@ -139,9 +161,9 @@ export default function lodash({ types }) {
           (spec) => spec.imported === "default",
         );
 
-        _.each(specs, (spec) => {
+        specs.forEach((spec) => {
           const { imported, local } = spec;
-          const binding = file.scope.getBinding(local);
+          const binding = path.scope.getBinding(local);
           const { importKind = "value" } = binding.path.parent;
 
           // Skip type annotation imports.
@@ -191,25 +213,25 @@ export default function lodash({ types }) {
     },
 
     ImportDeclaration(path) {
-      if (store.get(path.node.source.value)) {
-        // Remove old import.
-        path.remove();
-      }
+      // if (store.get(path.node.source.value)) {
+      //   // Remove old import.
+      //   path.remove();
+      // }
     },
 
     ExportNamedDeclaration(path) {
-      const { node } = path;
-      const pkgPath = _.get(node, "source.value");
-      const pkgStore = store.get(pkgPath);
-
-      if (!pkgStore) {
-        return;
-      }
-
-      node.source = null;
-      _.each(node.specifiers, (spec) => {
-        spec.local = importModule(pkgStore, spec.local.name, path);
-      });
+      // const { node } = path;
+      // const pkgPath = _.get(node, "source.value");
+      // const pkgStore = store.get(pkgPath);
+      //
+      // if (!pkgStore) {
+      //   return;
+      // }
+      //
+      // node.source = null;
+      // _.each(node.specifiers, (spec) => {
+      //   spec.local = importModule(pkgStore, spec.local.name, path);
+      // });
     },
   };
 

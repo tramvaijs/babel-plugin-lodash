@@ -1,18 +1,23 @@
 import _ from "lodash";
-import requirePackageName from "require-package-name";
+import { extractPackageName } from "./util";
 
 const reLodash = /^lodash(?:-compat|-es)?$/;
 
 /*----------------------------------------------------------------------------*/
 
-export default class Package {
-  constructor(pkgPath) {
+export class Package {
+  base: string;
+  id: string | null;
+  isLodash: () => boolean;
+  path: string;
+
+  constructor(pkgPath: string) {
     pkgPath = _.toString(pkgPath);
-    const pkgName = requirePackageName(pkgPath);
+    const pkgName = extractPackageName(pkgPath);
 
     this.base = pkgPath.replace(new RegExp(pkgName + "/?"), "");
     this.id = pkgName;
-    this.isLodash = _.constant(reLodash.test(this.id));
+    this.isLodash = _.constant(reLodash.test(this.id || ""));
     this.path = pkgPath;
   }
 }
