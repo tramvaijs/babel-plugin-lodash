@@ -1,10 +1,7 @@
-"use strict";
-
-var _noop2 = _interopRequireDefault(require("lodash-compat/utility/noop"));
-var _map2 = _interopRequireDefault(require("lodash-compat/collection/map"));
-var _identity2 = _interopRequireDefault(require("lodash-compat/utility/identity"));
-var _filter2 = _interopRequireDefault(require("lodash-compat/collection/filter"));
-function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
-_identity2.default || _noop2.default;
-_noop2.default ? _map2.default : _filter2.default;
-_noop2.default;
+import _noop from "lodash-compat/utility/noop";
+import _map from "lodash-compat/collection/map";
+import _identity from "lodash-compat/utility/identity";
+import _filter from "lodash-compat/collection/filter";
+_identity || _noop;
+_noop ? _map : _filter;
+_noop;

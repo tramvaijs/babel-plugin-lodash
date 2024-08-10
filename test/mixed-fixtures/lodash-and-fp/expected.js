@@ -1,16 +1,13 @@
-"use strict";
-
-var _reject3 = _interopRequireDefault(require("lodash/fp/reject"));
-var _add3 = _interopRequireDefault(require("lodash/fp/add"));
-var _take3 = _interopRequireDefault(require("lodash/fp/take"));
-var _map3 = _interopRequireDefault(require("lodash/fp/map"));
-var _reject4 = _interopRequireDefault(require("lodash/reject"));
-var _add4 = _interopRequireDefault(require("lodash/add"));
-var _take4 = _interopRequireDefault(require("lodash/take"));
-var _map4 = _interopRequireDefault(require("lodash/map"));
-function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
-const mapper = (0, _map3.default)((0, _add3.default)(1));
+import _reject2 from "lodash/fp/reject";
+import _add2 from "lodash/fp/add";
+import _take2 from "lodash/fp/take";
+import _map2 from "lodash/fp/map";
+import _reject from "lodash/reject";
+import _add from "lodash/add";
+import _take from "lodash/take";
+import _map from "lodash/map";
+const mapper = _map2(_add2(1));
 const result = mapper([]);
-(0, _take3.default)(1, (0, _reject3.default)(Boolean, result));
-const result2 = (0, _map4.default)([], n => (0, _add4.default)(1, n));
-(0, _take4.default)((0, _reject4.default)(result2), 1);
+_take2(1, _reject2(Boolean, result));
+const result2 = _map([], n => _add(1, n));
+_take(_reject(result2), 1);

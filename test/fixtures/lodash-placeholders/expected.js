@@ -1,7 +1,4 @@
-"use strict";
-
-var _bind2 = _interopRequireDefault(require("lodash/bind"));
-var _partial2 = _interopRequireDefault(require("lodash/fp/partial"));
-function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
-(0, _bind2.default)(func, _bind.placeholder, 1);
-(0, _partial2.default)(func, _partial.placeholder, 1);
+import _bind from "lodash/bind";
+import _partial from "lodash/fp/partial";
+_bind(func, _bind.placeholder, 1);
+_partial(func, _partial.placeholder, 1);

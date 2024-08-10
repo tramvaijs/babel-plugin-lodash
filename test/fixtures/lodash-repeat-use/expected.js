@@ -1,8 +1,5 @@
-"use strict";
-
-var _map2 = _interopRequireDefault(require("lodash/map"));
-function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
-const result1 = (0, _map2.default)([]);
-const result2 = (0, _map2.default)([]);
-const result3 = (0, _map2.default)([]);
-const result4 = (0, _map2.default)([]);
+import _map from "lodash/map";
+const result1 = _map([]);
+const result2 = _map([]);
+const result3 = _map([]);
+const result4 = _map([]);

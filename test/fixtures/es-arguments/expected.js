@@ -1,6 +1,3 @@
-"use strict";
-
-var _map2 = _interopRequireDefault(require("lodash-es/map"));
-var _capitalize2 = _interopRequireDefault(require("lodash-es/capitalize"));
-function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
-(0, _map2.default)([], _capitalize2.default);
+import _map from "lodash-es/map";
+import _capitalize from "lodash-es/capitalize";
+_map([], _capitalize);

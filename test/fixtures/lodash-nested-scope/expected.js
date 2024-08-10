@@ -1,9 +1,6 @@
-"use strict";
-
-var _merge2 = _interopRequireDefault(require("lodash/merge"));
-function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
+import _merge from "lodash/merge";
 function foo(object) {
-  return (0, _merge2.default)(object, {
+  return _merge(object, {
     'a': 1
   });
 }

@@ -1,13 +1,10 @@
-"use strict";
-
-var _pick2 = _interopRequireDefault(require("lodash-es/pick"));
-var _omit2 = _interopRequireDefault(require("lodash-es/omit"));
-var _filter2 = _interopRequireDefault(require("lodash-es/filter"));
-var _map2 = _interopRequireDefault(require("lodash-es/map"));
-var _noop2 = _interopRequireDefault(require("lodash-es/noop"));
-var _identity2 = _interopRequireDefault(require("lodash-es/identity"));
-function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
-const func1 = _identity2.default || _noop2.default;
-const func2 = _noop2.default ? _map2.default : _filter2.default;
-_noop2.default;
-(bool ? _omit2.default : _pick2.default)(object);
+import _pick from "lodash-es/pick";
+import _omit from "lodash-es/omit";
+import _filter from "lodash-es/filter";
+import _map from "lodash-es/map";
+import _noop from "lodash-es/noop";
+import _identity from "lodash-es/identity";
+const func1 = _identity || _noop;
+const func2 = _noop ? _map : _filter;
+_noop;
+(bool ? _omit : _pick)(object);

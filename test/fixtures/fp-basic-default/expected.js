@@ -1,10 +1,7 @@
-"use strict";
-
-var _reject2 = _interopRequireDefault(require("lodash/fp/reject"));
-var _take2 = _interopRequireDefault(require("lodash/fp/take"));
-var _add2 = _interopRequireDefault(require("lodash/fp/add"));
-var _map2 = _interopRequireDefault(require("lodash/fp/map"));
-function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
-const mapper = (0, _map2.default)((0, _add2.default)(1));
+import _reject from "lodash/fp/reject";
+import _take from "lodash/fp/take";
+import _add from "lodash/fp/add";
+import _map from "lodash/fp/map";
+const mapper = _map(_add(1));
 const result = mapper([]);
-(0, _take2.default)(1, (0, _reject2.default)(Boolean, result));
+_take(1, _reject(Boolean, result));

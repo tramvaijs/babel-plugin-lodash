@@ -1,12 +1,5 @@
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.case3 = exports.case2 = exports.case1 = void 0;
-var _camelCase2 = _interopRequireDefault(require("lodash/camelCase"));
-var _string = require("string");
-function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
-const case1 = exports.case1 = _camelCase2.default;
-const case2 = exports.case2 = fp.kebabCase;
-const case3 = exports.case3 = _string.snakeCase;
+import _camelCase from "lodash/camelCase";
+import { snakeCase } from 'string';
+export const case1 = _camelCase;
+export const case2 = fp.kebabCase;
+export const case3 = snakeCase;

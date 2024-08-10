@@ -1,9 +1,6 @@
-"use strict";
-
-var _reject2 = _interopRequireDefault(require("lodash-es/reject"));
-var _take2 = _interopRequireDefault(require("lodash-es/take"));
-var _add2 = _interopRequireDefault(require("lodash-es/add"));
-var _map2 = _interopRequireDefault(require("lodash-es/map"));
-function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
-const result = (0, _map2.default)([], n => (0, _add2.default)(1, n));
-(0, _take2.default)((0, _reject2.default)(result), 1);
+import _reject from "lodash-es/reject";
+import _take from "lodash-es/take";
+import _add from "lodash-es/add";
+import _map from "lodash-es/map";
+const result = _map([], n => _add(1, n));
+_take(_reject(result), 1);
