@@ -2,7 +2,7 @@ import { MapCache } from "./MapCache";
 import { ModuleCache } from "./ModuleCache";
 import { resolveModule } from "./util";
 
-const defaultIds = ["lodash", "lodash-es", "lodash-compat"];
+const defaultIds = ["lodash", "lodash-es"];
 
 let oldCwd: string;
 const ids: string[] = [];
