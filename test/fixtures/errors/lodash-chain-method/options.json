@@ -1,0 +1,3 @@
+{
+  "throws": "Lodash chain sequences are not supported by babel-plugin-transform-lodash-import.\nConsider substituting chain sequences with composition patterns.\nSee https://medium.com/making-internets/why-using-chain-is-a-mistake-9bc1f80d51ba"
+}

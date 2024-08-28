@@ -1,0 +1,8 @@
+{
+  "plugins": [["babel-plugin-transform-lodash-import", {
+    "ensureModuleExists": true
+  }]],
+  "throws": "The 'lodash' method `unknown` is not a known module.",
+  "validateLogs": true,
+  "ignoreOutput": true
+}

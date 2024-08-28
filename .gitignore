@@ -2,4 +2,7 @@
 *.log
 lib
 node_modules
-.idea
+.idea/**
+!.idea/runConfigurations/
+!.idea/runConfigurations/*.xml
+dist

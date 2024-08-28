@@ -1,40 +1,35 @@
-import _ from "lodash";
+import { ImportDeclaration } from "@babel/types";
 
-/*----------------------------------------------------------------------------*/
+const lodashEsRegex = /^lodash-es(\/[a-zA-Z]+)?$/;
+const lodashRegex = /^lodash((\/fp)?(\/[a-zA-Z]+)?)?$/;
 
-/**
- * Normalizes `pkgPath` by converting path separators to forward slashes.
- *
- * @static
- * @memberOf util
- * @param {string} [pkgPath=''] The package path to normalize.
- * @returns {string} Returns the normalized package path.
- */
-export function normalizePath(pkgPath: string) {
-  return _.toString(pkgPath).replace(/\\/g, "/");
+const importCache = new Set<string>();
+
+export function isLodashSource(source: string): boolean {
+  if (importCache.has(source)) return true;
+
+  const isLodash = lodashRegex.test(source) || lodashEsRegex.test(source);
+
+  if (isLodash) {
+    importCache.add(source);
+  }
+
+  return isLodash;
 }
 
-const scopePattern = /^(?:(@[^/]+)[/]+)([^/]+)[/]?/;
-const basePattern = /^([^/]+)[/]?/;
-
-export function extractPackageName(str: string, isBase = false): string | null {
-  if (/^@/.test(str)) {
-    var match = scopePattern.exec(str);
-    if (!match || !match[1] || !match[2]) return null;
-    if (isBase) return match[2] || null;
-
-    return [match[1], match[2]].join("/");
-  } else {
-    var match = basePattern.exec(str);
-    if (!match) return null;
-    return match[1] || null;
-  }
+export function shouldTransformImport(source: string): boolean {
+  return ["lodash", "lodash-es", "lodash/fp"].includes(source);
 }
 
-export function resolveModule(module: string): string | null {
-  try {
-    return require.resolve(module);
-  } catch (e) {
-    return null;
-  }
+export function createDefaultImportSource(
+  source: string,
+  functionName: string,
+): string {
+  return `${source}/${functionName}`;
+}
+
+export function isTypeImport(
+  importKind: ImportDeclaration["importKind"],
+): boolean {
+  return importKind === "type" || importKind === "typeof";
 }

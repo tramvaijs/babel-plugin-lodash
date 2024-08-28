@@ -1,0 +1,3 @@
+{
+  "throws": "Using default import for lodash, all lodash functions will be included into your bundle."
+}

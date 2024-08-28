@@ -1,0 +1,6 @@
+{
+  "sourceType": "module",
+  "plugins": ["babel-plugin-transform-lodash-import"],
+  "ignoreOutput": true,
+  "validateLogs": true
+}
