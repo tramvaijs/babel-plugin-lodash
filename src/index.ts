@@ -2,7 +2,7 @@ import type * as t from "@babel/types";
 import type { Identifier } from "@babel/types";
 import type { BabelFile, PluginObj, PluginPass } from "@babel/core";
 
-import { isTypeImport, shouldTransformImport } from "./util";
+import { isTypeOnlyImport, shouldTransformImport } from "./utils";
 import { getImportSpecifiers } from "./get-import-specifiers";
 import { ImportManager } from "./import-manager";
 
@@ -41,29 +41,22 @@ export default function transformLodashImportsPlugin({
 
         if (
           !shouldTransformImport(source) ||
-          isTypeImport(path.node.importKind)
+          isTypeOnlyImport(path.node.importKind)
         )
           return;
 
         const specifiers = getImportSpecifiers(types, path.node);
 
-        // TODO check in console
-        // TODO do we need this sorting at all?
-        // default imports first. Just to pass old unit tests
-        const specs = [...specifiers].sort((a, b) =>
-          b.kind === "default" ? -1 : 1,
-        );
-
         // TODO skip import kind type for specifiers
         // TODO: add test
-        specs.forEach((specifier) => {
+        specifiers.forEach((specifier) => {
           const binding = path.scope.getBinding(specifier.local);
           if (!binding) return;
 
           const importNode = binding.path.parent;
           if (
             !types.isImportDeclaration(importNode) ||
-            isTypeImport(importNode.importKind)
+            isTypeOnlyImport(importNode.importKind)
           )
             return;
 

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "@jest/globals";
-import { isLodashSource } from "../util";
+import { isLodashSource } from "../utils";
 
 describe("utils", () => {
   describe("isLodashImport", () => {
