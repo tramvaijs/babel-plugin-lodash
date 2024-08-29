@@ -1,8 +1,8 @@
 import type * as t from "@babel/types";
 import type { Identifier } from "@babel/types";
-import type { BabelFile, PluginObj, PluginPass } from "@babel/core";
+import type { PluginObj, PluginPass } from "@babel/core";
 
-import { isTypeOnlyImport, shouldTransformImport } from "./utils";
+import { getValue, isTypeOnlyImport, shouldTransformImport } from "./utils";
 import { getImportSpecifiers } from "./get-import-specifiers";
 import { ImportManager } from "./import-manager";
 
@@ -32,7 +32,7 @@ export default function transformLodashImportsPlugin({
         filename: this.filename || this.cwd,
       });
     },
-    post(file: BabelFile) {
+    post() {
       this.importManager.reset();
     },
     visitor: {
@@ -47,8 +47,7 @@ export default function transformLodashImportsPlugin({
 
         const specifiers = getImportSpecifiers(types, path.node);
 
-        // TODO skip import kind type for specifiers
-        // TODO: add test
+        // TODO: add test for type imports
         specifiers.forEach((specifier) => {
           const binding = path.scope.getBinding(specifier.local);
           if (!binding) return;
@@ -76,7 +75,6 @@ export default function transformLodashImportsPlugin({
              * _round(1.005, 2);
              */
             if (specifier.kind === "named") {
-              // TODO what if it's not call expression?
               if (specifier.imported === "chain") {
                 throw refPath.buildCodeFrameError(CHAIN_ERROR);
               }
@@ -118,9 +116,10 @@ export default function transformLodashImportsPlugin({
             if (
               parentPath &&
               types.isMemberExpression(parent) &&
-              types.isIdentifier(parent.property)
+              (types.isIdentifier(parent.property) ||
+                types.isStringLiteral(parent.property))
             ) {
-              const key = parent.property.name;
+              const key = getValue(parent.property);
 
               if (key === "chain") {
                 throw refPath.buildCodeFrameError(CHAIN_ERROR);
@@ -156,9 +155,7 @@ export default function transformLodashImportsPlugin({
         node.specifiers.forEach((spec) => {
           if (types.isExportSpecifier(spec)) {
             const { exported } = spec;
-            const importedName = types.isStringLiteral(exported)
-              ? exported.value
-              : exported.name;
+            const importedName = getValue(exported);
 
             spec.local = state.importManager.addDefaultImport({
               referenceNodePath: path,

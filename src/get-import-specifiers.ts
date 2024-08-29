@@ -1,11 +1,8 @@
-import type {
-  ExportNamedDeclaration,
-  ExportAllDeclaration,
-  ImportDeclaration,
-} from "@babel/types";
+import type { ImportDeclaration } from "@babel/types";
 import type * as t from "@babel/types";
 
 import type { Specifier } from "./types";
+import { checkExhaustiveness, getValue } from "./utils";
 
 export function getImportSpecifiers(
   types: typeof t,
@@ -19,18 +16,18 @@ export function getImportSpecifiers(
         kind: "default",
         local: specifier.local.name,
       });
+      continue;
     }
 
     if (types.isImportSpecifier(specifier)) {
       const importedNode = specifier.imported;
-      const importedName = types.isIdentifier(importedNode)
-        ? importedNode.name
-        : importedNode.value;
+      const importedName = getValue(importedNode);
       specifiers.push({
         kind: "named",
         imported: importedName,
         local: specifier.local.name,
       });
+      continue;
     }
 
     if (types.isImportNamespaceSpecifier(specifier)) {
@@ -38,7 +35,10 @@ export function getImportSpecifiers(
         kind: "namespace",
         local: specifier.local.name,
       });
+      continue;
     }
+
+    checkExhaustiveness(specifier);
   }
 
   return specifiers;

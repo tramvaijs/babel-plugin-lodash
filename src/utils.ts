@@ -1,3 +1,5 @@
+import { Identifier, StringLiteral } from "@babel/types";
+
 const lodashEsRegex = /^lodash-es(\/[a-zA-Z]+)?$/;
 const lodashRegex = /^lodash((\/fp)?(\/[a-zA-Z]+)?)?$/;
 
@@ -40,3 +42,9 @@ type ImportKind = "value" | "type" | "typeof" | null | undefined;
 export function isTypeOnlyImport(importKind: ImportKind): boolean {
   return importKind === "type" || importKind === "typeof";
 }
+
+export function getValue(node: Identifier | StringLiteral) {
+  return node.type === "Identifier" ? node.name : node.value;
+}
+
+export function checkExhaustiveness(value: never) {}
