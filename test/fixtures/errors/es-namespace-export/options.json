@@ -1,0 +1,3 @@
+{
+  "throws": "You're trying to export entire 'lodash-es', so all its functions will be included to bundle"
+}

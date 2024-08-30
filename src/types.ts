@@ -1,6 +1,3 @@
-import type { Visitor } from "@babel/traverse";
-import type { PluginPass } from "@babel/core";
-
 interface BaseSpecifier {
   kind: string;
   local: string;

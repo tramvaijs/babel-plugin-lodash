@@ -145,6 +145,16 @@ export default function transformLodashImportsPlugin({
         /** Remove processed import */
         path.remove();
       },
+      ExportAllDeclaration(path) {
+        const { node } = path;
+        const exportSource = node.source.value;
+
+        if (!shouldTransformImport(exportSource)) return;
+
+        throw path.buildCodeFrameError(
+          `You're trying to export entire '${exportSource}', so all its functions will be included to bundle`,
+        );
+      },
       ExportNamedDeclaration(path, state) {
         const { node } = path;
         const exportSource = node.source?.value;
@@ -164,7 +174,7 @@ export default function transformLodashImportsPlugin({
               importedName,
             }) as Identifier;
           } else {
-            path.buildCodeFrameError(
+            throw path.buildCodeFrameError(
               `You're trying to export entire '${exportSource}', so all its functions will be included to bundle`,
             );
           }

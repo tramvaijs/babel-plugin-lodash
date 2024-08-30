@@ -35,57 +35,10 @@ export function getImportSpecifiers(
         kind: "namespace",
         local: specifier.local.name,
       });
-      continue;
+    } else {
+      checkExhaustiveness(specifier);
     }
-
-    checkExhaustiveness(specifier);
   }
 
   return specifiers;
 }
-
-// export function getExportSpecifiers(
-//   types: typeof t,
-//   node: ExportNamedDeclaration | ExportAllDeclaration,
-// ): Specifier[] {
-//   const specifiers: Specifier[] = [];
-//
-//   if (types.isExportAllDeclaration(node)) {
-//     specifiers.push({
-//       kind: "namespace",
-//       local: "*",
-//     });
-//
-//     return specifiers;
-//   }
-//
-//   for (const specifier of node.specifiers) {
-//     if (types.isExportDefaultSpecifier(specifier)) {
-//       specifiers.push({
-//         kind: "default",
-//         local: specifier.exported.name,
-//       });
-//     }
-//
-//     if (types.isExportSpecifier(specifier)) {
-//       const importedNode = specifier.exported;
-//       const exportedName = types.isIdentifier(importedNode)
-//         ? importedNode.name
-//         : importedNode.value;
-//       specifiers.push({
-//         kind: "named",
-//         imported: importedName,
-//         local: exportedName,specifier.local.name,
-//       });
-//     }
-//
-//     if (types.isExportNamespaceSpecifier(specifier)) {
-//       specifiers.push({
-//         kind: "namespace",
-//         local: specifier.local.name,
-//       });
-//     }
-//   }
-//
-//   return specifiers;
-// }
