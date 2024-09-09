@@ -1,0 +1,4 @@
+{
+  "sourceType": "module",
+  "plugins": ["babel-plugin-transform-lodash-import", "@babel/syntax-jsx"]
+}

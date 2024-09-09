@@ -1,11 +1,11 @@
-import _reject2 from "lodash/fp/reject";
-import _add2 from "lodash/fp/add";
 import _take2 from "lodash/fp/take";
 import _map2 from "lodash/fp/map";
-import _reject from "lodash/reject";
-import _add from "lodash/add";
+import _reject2 from "lodash/fp/reject";
+import _add2 from "lodash/fp/add";
 import _take from "lodash/take";
 import _map from "lodash/map";
+import _reject from "lodash/reject";
+import _add from "lodash/add";
 const mapper = _map2(_add2(1));
 const result = mapper([]);
 _take2(1, _reject2(Boolean, result));

@@ -1,7 +1,4 @@
-"use strict";
-
-var _keys2 = _interopRequireDefault(require("lodash/keys"));
-function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
+import _keys from "lodash/keys";
 function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var s = Object.getOwnPropertySymbols(e); for (r = 0; r < s.length; r++) o = s[r], t.includes(o) || {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
 function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (e.includes(n)) continue; t[n] = r[n]; } return t; }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
@@ -21,4 +18,4 @@ const {
     b: foo
   } = o3,
   bar = _objectWithoutProperties(o3, ["b"]);
-(0, _keys2.default)(bar);
+_keys(bar);
