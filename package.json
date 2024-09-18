@@ -16,7 +16,7 @@
   "repository": "lodash/babel-plugin-lodash",
   "license": "MIT",
   "engines": {
-    "node": ">=18"
+    "node": ">=14"
   },
   "type": "module",
   "main": "./dist/cjs/index.js",

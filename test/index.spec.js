@@ -3,5 +3,5 @@ import { describe } from "@jest/globals";
 
 // wrap in additional `describe` to run/debug tests in IDE
 describe("tests", () => {
-    runner(import.meta.url);
-})
+  runner(import.meta.url);
+});
