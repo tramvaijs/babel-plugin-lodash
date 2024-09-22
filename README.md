@@ -70,8 +70,9 @@ require("@babel/core").transformSync(code, {
 
 `boolean`, defaults to `false`.
 
-When this option is enabled, plugin tries to resolve path to imported lodash module using `require.resolve()`. If the module can not be found, an error is thrown.
-Usually such check is done out of box by bundler (e.g. webpack) or typescript. Enabling this option may lead to decreasing performance.
+When this option is enabled, plugin tries to resolve path to imported lodash module using `require.resolve()`. If the
+module can not be found, an error is thrown. Usually such check is done out of box by bundler (e.g. webpack) or
+typescript. Enabling this option may lead to decreasing performance.
 
 **In**
 
@@ -96,6 +97,7 @@ _unknownFunc();
 
 - Supported lodash packages: `lodash`, `lodash/fp`, `lodash-es`
 - You must use ES6 imports to load Lodash
-- Babel < 7 & Node.js < 14 aren’t supported
-- Chain sequences aren’t supported. See [this blog post](https://medium.com/making-internets/why-using-chain-is-a-mistake-9bc1f80d51ba) for alternatives.
+- Babel < 7 & Node.js < 16 aren’t supported
+- Chain sequences aren’t supported.
+  See [this blog post](https://medium.com/making-internets/why-using-chain-is-a-mistake-9bc1f80d51ba) for alternatives.
 - Modularized [method packages](https://www.npmjs.com/browse/keyword/lodash-modularized) aren’t supported

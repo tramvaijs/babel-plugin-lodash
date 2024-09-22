@@ -6,7 +6,8 @@ import type {
 } from "@babel/types";
 import type { NodePath } from "@babel/traverse";
 import { addDefault } from "@babel/helper-module-imports";
-import { createDefaultImportSource } from "./utils";
+
+import { createDefaultImportSource } from "./utils.js";
 
 /**
  * need cache to not duplicate the same imports multiple times per file

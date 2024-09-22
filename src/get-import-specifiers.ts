@@ -1,8 +1,8 @@
 import type { ImportDeclaration } from "@babel/types";
 import type * as t from "@babel/types";
 
-import type { Specifier } from "./types";
-import { checkExhaustiveness, getValue } from "./utils";
+import type { Specifier } from "./types.js";
+import { checkExhaustiveness, getValue } from "./utils.js";
 
 export function getImportSpecifiers(
   types: typeof t,

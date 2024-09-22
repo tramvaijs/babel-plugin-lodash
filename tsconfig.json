@@ -1,12 +1,10 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "module": "esnext",
-    "moduleResolution": "node",
-    "esModuleInterop": true,
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "skipLibCheck": false
+    "strict": true
   }
 }

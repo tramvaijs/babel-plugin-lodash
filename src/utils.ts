@@ -1,4 +1,4 @@
-import { Identifier, StringLiteral } from "@babel/types";
+import type { Identifier, StringLiteral } from "@babel/types";
 
 export function shouldTransformImport(source: string): boolean {
   return ["lodash", "lodash-es", "lodash/fp"].includes(source);

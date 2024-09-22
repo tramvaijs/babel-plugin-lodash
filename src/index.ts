@@ -7,9 +7,9 @@ import {
   getValue,
   isTypeOnlyImport,
   shouldTransformImport,
-} from "./utils";
-import { getImportSpecifiers } from "./get-import-specifiers";
-import { ImportManager } from "./import-manager";
+} from "./utils.js";
+import { getImportSpecifiers } from "./get-import-specifiers.js";
+import { ImportManager } from "./import-manager.js";
 
 /** The error message used when chain sequences are detected. */
 const CHAIN_ERROR = [

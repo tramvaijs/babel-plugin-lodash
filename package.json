@@ -1,7 +1,7 @@
 {
   "name": "@tinkoff/babel-plugin-lodash",
   "version": "0.1.0",
-  "description": "This plugin transforms lodash imports to include into bundle only imported functions",
+  "description": "Transform lodash imports to include into bundle only imported functions",
   "keywords": [
     "babel-plugin",
     "lodash"
@@ -25,7 +25,6 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c --watch",
-    "prepublish": "npm run build",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "dependencies": {
