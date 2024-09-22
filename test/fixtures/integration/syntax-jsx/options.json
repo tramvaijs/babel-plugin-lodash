@@ -1,4 +1,4 @@
 {
   "sourceType": "module",
-  "plugins": ["babel-plugin-transform-lodash-import", "@babel/syntax-jsx"]
+  "plugins": ["@tinkoff/babel-plugin-lodash", "@babel/syntax-jsx"]
 }

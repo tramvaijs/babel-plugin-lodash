@@ -1,4 +1,4 @@
 {
   "sourceType": "module",
-  "plugins": ["babel-plugin-transform-lodash-import", "@babel/proposal-object-rest-spread"]
+  "plugins": ["@tinkoff/babel-plugin-lodash", "@babel/proposal-object-rest-spread"]
 }

@@ -2,13 +2,18 @@ import type * as t from "@babel/types";
 import type { Identifier } from "@babel/types";
 import type { PluginObj, PluginPass } from "@babel/core";
 
-import { getValue, isTypeOnlyImport, shouldTransformImport } from "./utils";
+import {
+  getEntirePackageExportError,
+  getValue,
+  isTypeOnlyImport,
+  shouldTransformImport,
+} from "./utils";
 import { getImportSpecifiers } from "./get-import-specifiers";
 import { ImportManager } from "./import-manager";
 
 /** The error message used when chain sequences are detected. */
 const CHAIN_ERROR = [
-  "Lodash chain sequences are not supported by babel-plugin-transform-lodash-import.",
+  "Lodash chain sequences are not supported by @tinkoff/babel-plugin-lodash.",
   "Consider substituting chain sequences with composition patterns.",
   "See https://medium.com/making-internets/why-using-chain-is-a-mistake-9bc1f80d51ba",
 ].join("\n");
@@ -36,7 +41,7 @@ export default function transformLodashImportsPlugin({
       this.importManager.reset();
     },
     visitor: {
-      ImportDeclaration(path, state) {
+      ImportDeclaration(path) {
         const source = path.node.source.value;
 
         if (
@@ -79,7 +84,7 @@ export default function transformLodashImportsPlugin({
                 throw refPath.buildCodeFrameError(CHAIN_ERROR);
               }
 
-              const result = state.importManager.addDefaultImport({
+              const result = this.importManager.addDefaultImport({
                 referenceNodePath: refPath,
                 importSource: source,
                 functionName: specifier.imported,
@@ -125,7 +130,7 @@ export default function transformLodashImportsPlugin({
                 throw refPath.buildCodeFrameError(CHAIN_ERROR);
               }
 
-              const result = state.importManager.addDefaultImport({
+              const result = this.importManager.addDefaultImport({
                 referenceNodePath: refPath,
                 importSource: source,
                 functionName: key,
@@ -152,10 +157,10 @@ export default function transformLodashImportsPlugin({
         if (!shouldTransformImport(exportSource)) return;
 
         throw path.buildCodeFrameError(
-          `You're trying to export entire '${exportSource}', so all its functions will be included to bundle`,
+          getEntirePackageExportError(exportSource),
         );
       },
-      ExportNamedDeclaration(path, state) {
+      ExportNamedDeclaration(path) {
         const { node } = path;
         const exportSource = node.source?.value;
 
@@ -167,7 +172,7 @@ export default function transformLodashImportsPlugin({
             const { exported } = spec;
             const importedName = getValue(exported);
 
-            spec.local = state.importManager.addDefaultImport({
+            spec.local = this.importManager.addDefaultImport({
               referenceNodePath: path,
               importSource: exportSource,
               functionName: spec.local.name,
@@ -175,7 +180,7 @@ export default function transformLodashImportsPlugin({
             }) as Identifier;
           } else {
             throw path.buildCodeFrameError(
-              `You're trying to export entire '${exportSource}', so all its functions will be included to bundle`,
+              getEntirePackageExportError(exportSource),
             );
           }
         });

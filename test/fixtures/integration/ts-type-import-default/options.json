@@ -2,6 +2,6 @@
   "sourceType": "module",
   "plugins": [
     "@babel/plugin-syntax-typescript",
-    "babel-plugin-transform-lodash-import"
+    "@tinkoff/babel-plugin-lodash"
   ]
 }

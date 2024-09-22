@@ -31,3 +31,7 @@ export function getValue(node: Identifier | StringLiteral) {
 }
 
 export function checkExhaustiveness(value: never) {}
+
+export function getEntirePackageExportError(source: string): string {
+  return `You're trying to export entire '${source}', so all its functions will be included to bundle`;
+}

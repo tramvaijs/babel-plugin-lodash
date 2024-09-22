@@ -1,5 +1,5 @@
 {
-  "plugins": [["babel-plugin-transform-lodash-import", {
+  "plugins": [["@tinkoff/babel-plugin-lodash", {
     "ensureModuleExists": true
   }]],
   "throws": "The 'lodash' method `unknown` is not a known module.",
