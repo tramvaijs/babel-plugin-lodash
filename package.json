@@ -11,12 +11,13 @@
   "repository": "https://github.com/tramvaijs/babel-plugin-lodash",
   "license": "MIT",
   "type": "module",
-  "main": "./dist/cjs/index.js",
+  "main": "./dist/index.mjs",
   "exports": {
     ".": {
-      "require": "./dist/cjs/index.js",
-      "import": "./dist/esm/index.js"
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs"
     },
+    "./cjs": "./dist/index.cjs",
     "./package.json": "./package.json"
   },
   "files": [

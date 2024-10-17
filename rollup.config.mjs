@@ -32,6 +32,6 @@ function createConfig({ format, file }) {
 }
 
 export default [
-  createConfig({ format: "es", file: "dist/esm/index.js" }),
-  createConfig({ format: "cjs", file: "dist/cjs/index.js" }),
+  createConfig({ format: "es", file: "dist/index.mjs" }),
+  createConfig({ format: "cjs", file: "dist/index.cjs" }),
 ];
