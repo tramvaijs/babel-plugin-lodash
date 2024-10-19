@@ -36,4 +36,15 @@ jobs:
         run: npm run build
 
       - name: Publish
-        run: npm publish
+        run: |
+          LATEST_VERSION=$(npm view @tinkoff/babel-plugin-lodash version)
+          CURRENT_VERSION=$(node -e "console.log(require('./package.json').version)")
+          VERSION_TAG="v$CURRENT"
+
+          if [ "$CURRENT_VERSION" = "$LATEST_VERSION" ]; then
+              echo "Version not changed"
+          else
+              npm publish
+              git tag "$VERSION_TAG"
+              git push origin "$VERSION_TAG"
+          fi

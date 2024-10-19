@@ -7,7 +7,10 @@
     "lodash"
   ],
   "author": "Ivan Saranchonkau <i.saranchenkov@tbank.ru> (https://github.com/saranchonkau)",
-  "repository": "https://github.com/tramvaijs/babel-plugin-lodash",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tramvaijs/babel-plugin-lodash.git"
+  },
   "license": "ISC",
   "publishConfig": {
     "access": "public"
